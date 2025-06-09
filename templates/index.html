@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Food Recipes</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="icon" href="static/images/favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">Food Recipe App</a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/recipe-ai">Recipe AI</a></li>
+    </ul>
+  </div>
+</nav>
+
+    <header>
+      <form action="/" method="get" class="search-form">
+        <input
+          type="text"
+          name="q"
+          placeholder="Search for a dish..."
+          value="{{ request.query_params.get('q', '') }}"
+        />
+        <button type="submit">Search</button>
+      </form>
+      <hr />
+    </header>
+
+    <form action="/" method="get" class="filter-form">
+  <div class="filters-row">
+  <input type="radio" id="all" name="filter_type" value="" {% if not filter_type %}checked{% endif %}>
+  <label for="all">All</label>
+
+  <input type="radio" id="veg" name="filter_type" value="veg" {% if filter_type == 'veg' %}checked{% endif %}>
+  <label for="veg">Veg</label>
+
+  <input type="radio" id="nonveg" name="filter_type" value="non-veg" {% if filter_type == 'non-veg' %}checked{% endif %}>
+  <label for="nonveg">Non-Veg</label>
+
+  <select name="cuisine">
+    <option value="">-- Select Cuisine --</option>
+    {% for c in ['south', 'north', 'italian', 'chinese', 'mexican', 'thai', 'korean', 'spanish', 'japanese'] %}
+      <option value="{{ c }}" {% if cuisine == c %}selected{% endif %}>{{ c.capitalize() }}</option>
+    {% endfor %}
+  </select>
+</div>
+
+
+  <!-- <button type="submit">Filter</button> -->
+</form>
+
+
+    <div class="recipe-grid">
+      {% for recipe in recipes %}
+      <a href="/recipe/{{ recipe.id }}" class="recipe-card">
+        <img src="{{ recipe.image_url }}" alt="{{ recipe.title }}" />
+        <h2>{{ recipe.title }}</h2>
+      </a>
+      {% endfor %}
+    </div>
+
+    <script>
+  // Automatically submit the form when radio or dropdown changes
+  document.querySelectorAll('input[name="filter_type"], select[name="cuisine"]').forEach(element => {
+    element.addEventListener('change', () => {
+      element.closest('form').submit();
+    });
+  });
+</script>
+
+
+  </body>
+</html>

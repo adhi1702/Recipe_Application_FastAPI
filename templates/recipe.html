@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ recipe.title }}</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="icon" href="static/images/favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    {% extends "base.html" %} {% block title %}{{ recipe.title }} - Food
+    Recipes{% endblock %} {% block content %}
+    <a href="/">← Back to recipes</a>
+
+    <h2>{{ recipe.title }}</h2>
+
+    <div class="recipe-container">
+      <div class="ingredients">
+        <h3>Ingredients:</h3>
+        <ul>
+          {% for ingredient in recipe.ingredients %}
+          <li>{{ ingredient }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="image">
+        <img src="{{ recipe.image_url }}" alt="{{ recipe.title }}" />
+      </div>
+    </div>
+
+    <h3>Instructions:</h3>
+    <p style="text-align: justify">{{ recipe.instructions }}</p>
+    {% endblock %}
+  </body>
+</html>
